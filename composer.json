@@ -1,0 +1,32 @@
+{
+  "name": "mhndev/pusher",
+  "description": "single interface for using multiple pusher service",
+  "keywords": ["pusher", "pusher.com", "pubnub", "FCM", "GCM", "Nginx PushStream Module"],
+  "homepage": "http://github.com/mhndev/pusher",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "majid abdolhosseini",
+      "email": "majid@mhndev.com",
+      "homepage":"http://mhndev.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "mhndev\\pusher\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "php-gcm/php-gcm": "dev-master",
+    "paragraph1/php-fcm": "^0.7.0",
+    "pusher/pusher-php-server": "~2.6.0",
+    "pubnub/pubnub": "~3.8.3",
+    "swiftmailer/swiftmailer": "^5.4",
+    "phpmailer/phpmailer": "^5.2"
+  },
+  "require-dev":{
+    "raveren/kint": "^1.0"
+
+  }
+}
