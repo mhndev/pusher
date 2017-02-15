@@ -4,8 +4,8 @@ single interface for using multiple pusher service
 
 ### Included Service
 
-#### FCM
-#### GCM
-#### Nginx Push Stream Module
-#### Pubnub.com
-#### Pusher.com
+- FCM
+- GCM
+- Nginx Push Stream Module
+- Pubnub.com
+- Pusher.com
