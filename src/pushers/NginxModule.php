@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher;
+namespace mhndev\pusher\pushers;
 
 use GuzzleHttp\Client;
 use mhndev\pusher\exceptions\InvalidArgumentException;

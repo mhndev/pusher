@@ -26,7 +26,14 @@
     "phpmailer/phpmailer": "^5.2"
   },
   "require-dev":{
+    "phpunit/phpunit": "6.*",
+    "mockery/mockery" : "0.9.5",
+    "satooshi/php-coveralls": "dev-master",
     "raveren/kint": "^1.0"
 
-  }
+  },
+
+  "minimum-stability": "dev",
+  "prefer-stable": true
+
 }

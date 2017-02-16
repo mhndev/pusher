@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher;
+namespace mhndev\pusher\pushers;
 
 use GuzzleHttp\ClientInterface;
 use mhndev\pusher\exceptions\PushFailException;
@@ -24,7 +24,7 @@ class Fcm implements iPusher
     protected $apiKey;
 
     /**
-     * @var mixed
+     * @var Client
      */
     protected $fcmClient;
 
@@ -35,6 +35,7 @@ class Fcm implements iPusher
 
     /**
      * Fcm constructor.
+     *
      * @param $apiKey
      * @param $httpClient
      * @throws \Exception
@@ -62,7 +63,6 @@ class Fcm implements iPusher
     function push(iMessage $message, $deviceIdentifier, $options = [])
     {
         $message = $this->createMessage($message, $options);
-
         $message->addRecipient(new Device($deviceIdentifier));
 
         $response = $this->fcmClient->send($message);
@@ -163,12 +163,9 @@ class Fcm implements iPusher
             throw new \InvalidArgumentException;
         }
 
-
         if(empty($options['type']) || !in_array($options['type'], [self::DEVICE, self::TOPIC] ) ){
             throw new \InvalidArgumentException;
         }
-
-
 
         if(empty($options['typeIdentifier']) ){
             throw new \InvalidArgumentException;
