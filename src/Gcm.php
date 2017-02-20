@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher\pushers;
+namespace mhndev\pusher;
 
 use mhndev\pusher\exceptions\InvalidArgumentException;
 use mhndev\pusher\exceptions\PushFailException;

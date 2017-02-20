@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher\pushers;
+namespace mhndev\pusher;
 
 use GuzzleHttp\ClientInterface;
 use mhndev\pusher\exceptions\PushFailException;
@@ -24,7 +24,7 @@ class Fcm implements iPusher
     protected $apiKey;
 
     /**
-     * @var Client
+     * @var mixed
      */
     protected $fcmClient;
 
@@ -35,7 +35,6 @@ class Fcm implements iPusher
 
     /**
      * Fcm constructor.
-     *
      * @param $apiKey
      * @param $httpClient
      * @throws \Exception
@@ -62,10 +61,11 @@ class Fcm implements iPusher
      */
     function push(iMessage $message, $deviceIdentifier, $options = [])
     {
-        $message = $this->createMessage($message, $options);
-        $message->addRecipient(new Device($deviceIdentifier));
+        $newMessage = $this->createMessage($message, $options);
 
-        $response = $this->fcmClient->send($message);
+        $newMessage->addRecipient(new Device($deviceIdentifier));
+
+        $response = $this->fcmClient->send($newMessage);
 
         if($response->getStatusCode() == 200){
             return $response->getBody()->getContents();
@@ -134,7 +134,11 @@ class Fcm implements iPusher
      */
     protected function createMessage(iMessage $message, $options = [])
     {
-        $note = new Notification($options['title'], $message);
+        $title = !empty($options['title'] ) ? $options['title'] : 'no-title';
+        $body  = !empty($options['body'] )  ? $options['body']  : 'no-body';
+
+
+        $note = new Notification($title, $body);
 
         empty($options['icon'])        ? : $note->setIcon($options['icon']);
         empty($options['color'])       ? : $note->setColor($options['color']);
@@ -142,14 +146,15 @@ class Fcm implements iPusher
         empty($options['clickAction']) ? : $note->setClickAction('clickAction');
         empty($options['sound'])       ? : $note->setSound('sound');
         empty($options['tag'])         ? : $note->setTag('tag');
-        empty($options['body'])        ? : $note->setBody('body');
 
+        $newMessage = new Message();
+        $newMessage->setNotification($note);
 
-        $message = new Message();
-        $message->setNotification($note);
-        $message->setData($options['data']);
+        $data = empty($message->getData()) ? [] : $message->getData();
 
-        return $message;
+        $newMessage->setData($data);
+
+        return $newMessage;
     }
 
 
@@ -163,9 +168,12 @@ class Fcm implements iPusher
             throw new \InvalidArgumentException;
         }
 
+
         if(empty($options['type']) || !in_array($options['type'], [self::DEVICE, self::TOPIC] ) ){
             throw new \InvalidArgumentException;
         }
+
+
 
         if(empty($options['typeIdentifier']) ){
             throw new \InvalidArgumentException;

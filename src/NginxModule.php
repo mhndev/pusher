@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher\pushers;
+namespace mhndev\pusher;
 
 use GuzzleHttp\Client;
 use mhndev\pusher\exceptions\InvalidArgumentException;
@@ -83,8 +83,7 @@ class NginxModule implements iPusher
         $client = $this->httpClient;
         $message = addslashes($message->__toString());
 
-
-        if(! is_array($options['channel']) || ! $deviceIdentifiers instanceof \Traversable){
+        if(! is_array($deviceIdentifiers) && ! $deviceIdentifiers instanceof \Traversable){
             throw new InvalidArgumentException(
                 'deviceIdentifiers argument (second argument) needed to be array or instance of \Traversable'
             );

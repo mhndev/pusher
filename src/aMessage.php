@@ -28,6 +28,11 @@ abstract class aMessage implements iMessage
      */
     protected $options;
 
+    /**
+     * @var string
+     */
+    protected $toString = null;
+
 
     const DEFAULT_NAMESPACE = 'default';
 
@@ -53,7 +58,7 @@ abstract class aMessage implements iMessage
 
         }
         elseif (is_array($data)) {
-            $data = json_encode($data);
+            //do nothing
         }
 
         elseif (is_string($data)){
@@ -68,8 +73,6 @@ abstract class aMessage implements iMessage
             throw new InvalidArgumentException(sprintf('data should be string or be array or
                  be instance of \Traversable or at least be an object with __toString method'));
         }
-
-
 
         $this->namespace = $namespace ? $namespace : static::DEFAULT_NAMESPACE;
         $this->data      = $data;
@@ -100,7 +103,6 @@ abstract class aMessage implements iMessage
     {
         return $this->options;
     }
-
 
 
 
@@ -143,12 +145,41 @@ abstract class aMessage implements iMessage
      */
     public function __toString()
     {
+        if(!empty($this->toString)){
+            return $this->toString;
+        }
+
         $arrayPresentation = [
             'namespace' => $this->namespace,
             'data'      => $this->data
         ];
 
-        return json_encode($arrayPresentation);
+        if(!empty($this->options['params'])){
+            foreach ($this->options['params'] as $param_key => $param_value){
+                $arrayPresentation[$param_key] = $param_value;
+            }
+        }
+
+        return $this->toString = json_encode($arrayPresentation);
+    }
+
+    /**
+     * @return string
+     */
+    public function getToString()
+    {
+        return $this->toString = !empty($this->toString) ? $this->toString : $this->__toString();
+    }
+
+    /**
+     * @param string $toString
+     * @return $this
+     */
+    public function setToString($toString)
+    {
+        $this->toString = $toString;
+
+        return $this;
     }
 
 

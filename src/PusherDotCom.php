@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\pusher\pushers;
+namespace mhndev\pusher;
 
 use mhndev\pusher\interfaces\iMessage;
 use mhndev\pusher\interfaces\iPusher;
